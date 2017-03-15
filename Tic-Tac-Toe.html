@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+  <body>
+
+    <style>
+      table {border-collapse: collapse;}
+      td {font-size: 5em; font-family: sans-serif;}
+      #ttt_table td {height: 100px; width: 100px;}
+      .centerText {text-align: center;}
+      .marginAuto {margin: auto;}
+    </style>
+
+    <h1 class="centerText">Tic - Tac - Potato</h1>
+    <table id="ttt_table" class="marginAuto centerText">
+      <tr>
+        <td id="pos0" onclick="ttt_click(0);" style="border-style: solid; border-width: 0px 5px 5px 0px;"></td>
+        <td id="pos1" onclick="ttt_click(1);" style="border-style: solid; border-width: 0px 5px 5px 5px;"></td>
+        <td id="pos2" onclick="ttt_click(2);" style="border-style: solid; border-width: 0px 0px 5px 0px;"></td>
+      </tr>
+      <tr>
+        <td id="pos3" onclick="ttt_click(3);" style="border-style: solid; border-width: 0px 5px 5px 0px;"></td>
+        <td id="pos4" onclick="ttt_click(4);" style="border-style: solid; border-width: 0px 5px 5px 0px;"></td>
+        <td id="pos5" onclick="ttt_click(5);" style="border-style: solid; border-width: 0px 0px 5px 0px;"></td>
+      </tr>
+      <tr>
+        <td id="pos6" onclick="ttt_click(6);" style="border-style: solid; border-width: 0px 5px 0px 0px;"></td>
+        <td id="pos7" onclick="ttt_click(7);" style="border-style: solid; border-width: 0px 5px 0px 0px;"></td>
+        <td id="pos8" onclick="ttt_click(8);"></td>
+      </tr>
+    </table>
+
+    <h2 id="gameStatus" class="centerText">X's Turn!</h2>
+
+    <script>
+    var charTurn = 'X';
+    var intCount = 0;
+    var isGameOver = false;
+    var posArray = [false, false, false, false, false, false, false, false, false];
+    var winSets =
+    [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 3, 6],
+      [0, 4, 8],
+      [6, 4, 2]
+    ];
+    function ttt_click(posClicked)
+    {
+        if(isGameOver)
+          return;
+
+        if (!posArray[posClicked])
+        {
+          posArray[posClicked] = charTurn;
+          document.getElementById("pos"+posClicked).innerHTML = charTurn;
+          checkForWin();
+          if (!isGameOver)
+          {
+            charTurn = (charTurn=='X')? 'O' : 'X';
+            document.getElementById("gameStatus").innerHTML = charTurn + "\'s Turn!";
+          }
+        }
+    }
+    function checkForWin()
+    {
+      for(var i = 0; i < 8; i++)
+      {
+        if(posArray[winSets[i][0]])
+        {
+          console.log("1st check Main");
+          if(posArray[winSets[i][0]]==posArray[winSets[i][1]] &&
+             posArray[winSets[i][1]]==posArray[winSets[i][2]])
+             {
+               console.log("2nd check Main \(WON\)");
+               isGameOver = true;
+               document.getElementById("gameStatus").innerHTML = charTurn + " Wins!";
+             }
+        }
+        if(!isGameOver && posArray[0] && posArray[1] && posArray[2] && posArray[3] && posArray[4] && posArray[5] && posArray[6] && posArray[7] && posArray[8])
+        {
+            isGameOver = true;
+            document.getElementById("gameStatus").innerHTML = "It\'s a Tie!";
+        }
+      }
+    }
+    </script>
+  </body>
+</html>
